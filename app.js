@@ -187,25 +187,30 @@ function handleOrientation(event) {
   }
 }
 
+function move_everything_back_to_original_state(){
+	if (current_image_enlarged!="None"){
+		for (layer=0; layer<num_of_layers; layer++){
+			document.getElementById(current_image_enlarged+"_"+(layer+1)).style.left = current_image_left_offset+"%";
+			document.getElementById(current_image_enlarged+"_"+(layer+1)).style.top = current_image_top_offset+"%";
+		}
+	}
+	current_image_enlarged="None";
+	current_image_left_offset="None";
+	current_image_top_offset="None";
+	image_parallex_effect=false;
+	// set all images back to original size
+	images.forEach((image, idx) => {
+		image.classList.remove('active');
+	})
+}
+
+
 // Mouse grab/ Mouse wheel / track pad
 let canSwipe = true;
 function wheelFunc(e){
     if(canSwipe){
 		
-		if (current_image_enlarged!="None"){
-			for (layer=0; layer<num_of_layers; layer++){
-				document.getElementById(current_image_enlarged+"_"+(layer+1)).style.left = current_image_left_offset+"%";
-				document.getElementById(current_image_enlarged+"_"+(layer+1)).style.top = current_image_top_offset+"%";
-			}
-		}
-		current_image_enlarged="None";
-		current_image_left_offset="None";
-		current_image_top_offset="None";
-		image_parallex_effect=false;
-		// set all images back to original size
-		images.forEach((image, idx) => {
-			image.classList.remove('active');
-		})
+		move_everything_back_to_original_state();
 		
         // swipe up
         if(e.deltaY > 60 && current !== -(window.innerHeight * (total_images_count-1))){
@@ -273,6 +278,9 @@ function endTouch(e) {
 }
 
   function swipe(){
+	  
+	  move_everything_back_to_original_state();
+	  
       // Swipe up
       if(endY - initialY < -50){
 
