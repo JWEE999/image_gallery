@@ -38,6 +38,12 @@ mainEl.addEventListener('wheel', wheelFunc, {passive: false})
 let canSwipe = true;
 function wheelFunc(e){
     if(canSwipe){
+		
+		// set all images back to original size
+		images.forEach((image, idx) => {
+			image.classList.remove('active');
+		})
+		
         // swipe up
         if(e.deltaY > 60 && current !== -(window.innerHeight * 5)){
             canSwipe = false;
@@ -95,6 +101,10 @@ function endTouch(e) {
     endY = e.changedTouches[0].clientY;
 
     if(initialEnd - initialStart < 800){
+		// set all images back to original size
+		images.forEach((image, idx) => {
+			image.classList.remove('active');
+		})
         swipe()
     }
 }
