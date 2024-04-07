@@ -46,7 +46,8 @@ images.forEach((image, idx) => {
 		img.id='img'+total_images_count+'_'+(layer+1);
 	}
 	image.addEventListener('click', () => {
-		console.log("image"+idx);
+		console.log("jhgjhgimage"+idx);
+		console.log(current_image_enlarged);
 		if (current_image_enlarged==="img"+(idx+1)){ // Image is the current enlarge ones
 			current_image_enlarged="None";
 			for (let layer=0; layer < num_of_layers; layer++){
@@ -56,14 +57,16 @@ images.forEach((image, idx) => {
 			current_image_left_offset="None";
 			current_image_top_offset="None";
 			image_parallex_effect=false;
+			image.classList.remove('active');
 		}
 		else{
 			current_image_enlarged="img"+(idx+1);
 			current_image_left_offset=Number(document.getElementById("img"+(idx+1)+"_1").style.left.replace("%",""));
 			current_image_top_offset=Number(document.getElementById("img"+(idx+1)+"_1").style.top.replace("%",""));
 			image_parallex_effect=true;
+			image.classList.toggle('active');
 		}
-		image.classList.toggle('active');
+		
 	})
     
 })
@@ -194,6 +197,7 @@ function move_everything_back_to_original_state(){
 			document.getElementById(current_image_enlarged+"_"+(layer+1)).style.top = current_image_top_offset+"%";
 		}
 	}
+	console.log("current force none");
 	current_image_enlarged="None";
 	current_image_left_offset="None";
 	current_image_top_offset="None";
@@ -210,6 +214,7 @@ let canSwipe = true;
 function wheelFunc(e){
     if(canSwipe){
 		
+		console.log("asdasd");
 		move_everything_back_to_original_state();
 		
         // swipe up
@@ -279,20 +284,20 @@ function endTouch(e) {
 
   function swipe(){
 	  
-	  move_everything_back_to_original_state();
-	  
       // Swipe up
       if(endY - initialY < -50){
 
           if(current !== -(window.innerHeight * (total_images_count-1))){
             current -= window.innerHeight;
-            slide++
+            slide++;
+			move_everything_back_to_original_state();
           }
           // Swipe down
       }else if(endY - initialY > 50){
           if(current !== 0){
             current += window.innerHeight;
-            slide--
+            slide--;
+			move_everything_back_to_original_state();
           }   
       }
       content.style.transform = `translateY(${current}px)`
